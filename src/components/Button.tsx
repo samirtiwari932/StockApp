@@ -1,12 +1,22 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, Pressable } from "react-native";
+import React from "react";
 
-const Button = () => {
-  return (
-    <View>
-      <Text>Button</Text>
-    </View>
-  )
+interface Props {
+  title: string;
+  action?: () => void;
 }
 
-export default Button
+const Title = "Login";
+
+const Button = ({ title, action }: Props) => {
+  return (
+    <Pressable
+      className="bg-[#2ab07c] w-full h-12 rounded-xl items-center justify-center"
+      onPress={action}
+    >
+      <Text className="text-white text-lg font-bold">{title}</Text>
+    </Pressable>
+  );
+};
+
+export default Button;

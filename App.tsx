@@ -1,15 +1,28 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import styled from "styled-components/native";
+import { StatusBar } from "expo-status-bar";
+import RootNavigation from "./src/screens/navigation/RootNavigation";
+import useCachedResources from "./hooks/useCachedResources";
 
 const App = () => {
+  const isLoadingComplete = useCachedResources();
+
+  if (!isLoadingComplete) {
+    return null;
+  }
   return (
-    <SafeAreaView className="flex-1 bg-orange-600 justify-center items-center">
-      <Text className="text-2xl font-semibold font-sans text-white">
-        Appsss
-      </Text>
-    </SafeAreaView>
+    <Container>
+      <StatusBar style="auto" />
+      <RootNavigation />
+    </Container>
   );
 };
 
 export default App;
+
+const Container = styled.View`
+  flex: 1;
+  background-color: green;
+`;
