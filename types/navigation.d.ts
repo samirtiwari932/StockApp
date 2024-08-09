@@ -5,7 +5,7 @@ type SplashScreenParamList = {
 type AuthScreenParamList = {
   Welcome: undefined;
   Login: undefined;
-  SignUp: undefined;
+  Register : undefined;
   SignInWithGoogle: undefined;
   SignInWithApple: undefined;
 };

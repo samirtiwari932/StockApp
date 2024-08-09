@@ -63,7 +63,7 @@ const WelcomeScreen = () => {
           >
             <ButtonOutline
               title="Sign Up"
-              action={() => navigateAuth("SignUp")}
+              action={() => navigateAuth("Register")}
             />
           </Animated.View>
         </View>
