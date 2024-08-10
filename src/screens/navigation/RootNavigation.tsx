@@ -1,11 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { TransitionPresets, createStackNavigator } from "@react-navigation/stack";
+import {
+  TransitionPresets,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import React, { useState } from "react";
 import AuthNavigation from "./AuthNavigation";
 import TabNavigation from "./TabNavigation";
+import { useUserStorage } from "@/store/useUserStorage";
 
 const RootNavigation = () => {
-  const [session, setSession] = useState(false);
+  const { session } = useUserStorage();
 
   const Stack = createStackNavigator();
   return (
@@ -13,13 +17,13 @@ const RootNavigation = () => {
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
-            ...TransitionPresets.SlideFromRightIOS,
-            animationEnabled: true,
-            gestureEnabled: true,
-            gestureDirection: "horizontal", 
+          ...TransitionPresets.SlideFromRightIOS,
+          animationEnabled: true,
+          gestureEnabled: true,
+          gestureDirection: "horizontal",
         }}
       >
-        {session ? (
+        {session && session.user ? (  
           <Stack.Screen name="TabNavigation" component={TabNavigation} />
         ) : (
           <Stack.Screen name="AuthNavigation" component={AuthNavigation} />

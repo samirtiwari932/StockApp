@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   Pressable,
   StyleSheet,
@@ -14,6 +15,8 @@ import ButtonOutline from "@/src/components/ButtonOutline";
 import { AntDesign } from "@expo/vector-icons";
 import Breaker from "@/src/components/Breaker";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { supabase } from "@/lib/supabase";
+import { useUserStorage } from "@/store/useUserStorage";
 
 const { height, width } = Dimensions.get("window");
 
@@ -22,6 +25,24 @@ const LoginScreen = () => {
   const [password, setPassword] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const { navigate }: NavigationProp<AuthScreenParamList> = useNavigation();
+  const { setUser, setSession } = useUserStorage();
+  async function signInWithEmail() {
+    setIsLoading(true);
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      setIsLoading(false);
+      Alert.alert(error.message);
+    }
+    if (data.session && data.user) {
+      setSession(data.session);
+      setUser(data.user);
+    }
+    setIsLoading(false);
+  }
   return (
     <View className="flex-1  justify-center">
       {isLoading && (
@@ -80,7 +101,7 @@ const LoginScreen = () => {
                 className="p-4"
                 onChangeText={(text) => setPassword(text)}
                 placeholder="Password"
-                value={email}
+                value={password}
                 autoCapitalize="none"
                 secureTextEntry={true}
               />
@@ -92,7 +113,7 @@ const LoginScreen = () => {
             entering={FadeInDown.duration(100).delay(200).springify()}
           >
             <View className="pb-6">
-              <Button title="Login" />
+              <Button title="Login" action={signInWithEmail} />
             </View>
           </Animated.View>
 
